@@ -50,7 +50,7 @@ class LinearRegression:
         prediction = LinearRegression.hypothesis(self.data,self.theta)
         delta = prediction - self.labels
         theta = self.theta
-        theta = theta - alpha*(1/num_examples)*(np.dot(delta.T,self.data)).T
+        theta = theta - alpha*(1/num_examples)*(np.dot(delta.T,self.data)).T  # 注意这里的转置操作，因为delta是列向，而data是行向
         self.theta = theta
         
         
@@ -60,13 +60,13 @@ class LinearRegression:
         """
         num_examples = data.shape[0]
         delta = LinearRegression.hypothesis(self.data,self.theta) - labels
-        cost = (1/2)*np.dot(delta.T,delta)/num_examples
-        return cost[0][0]
+        cost = (1/2)*np.dot(delta.T,delta)/num_examples   # 对于列向量，左转右不转得到的是一个数值
+        return cost[0][0]  # np用二维数组表示矩阵，所以这里取第一个元素，哪怕是一个数值 [[1]] -> 1
         
         
         
     @staticmethod
-    def hypothesis(data,theta):   
+    def hypothesis(data,theta):    # 静态方法，不需要实例化对象，直接调用
         predictions = np.dot(data,theta)
         return predictions
         
